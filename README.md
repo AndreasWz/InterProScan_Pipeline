@@ -1,8 +1,10 @@
-# InterProScan Pipeline - Environment Setup
+# InterProScan Pipeline
 
-## Quick Setup Commands
+> Automated pipeline to extract protein sequences from UniProt and run InterProScan to get complete domain annotations - bypassing InterPro API limitations
 
-### 1. Create and activate conda environment:
+## 🚀 Quick Start
+
+### 1. Setup Environment
 ```bash
 # Create environment with Python 3.9 and required packages
 conda create -n interproscan python=3.9 requests -c conda-forge -y
@@ -11,43 +13,46 @@ conda create -n interproscan python=3.9 requests -c conda-forge -y
 conda activate interproscan
 ```
 
-### 2. Run the pipeline:
+### 2. Run Pipeline
 ```bash
 python interproscan_pipeline.py uniprot_ids.txt results_folder/ your_email@example.com
 ```
 
----
+## 📋 Requirements
 
-## Alternative Setup (if you prefer pip)
+- **Python 3.9+**
+- **requests** library
+- **Internet connection** for API calls
+- **Valid email address** (required by EMBL-EBI)
 
-### 1. Create conda environment with just Python:
+## 🔧 Installation
+
+### Option 1: Conda (Recommended)
 ```bash
-conda create -n interproscan python=3.9 -y
+conda create -n interproscan python=3.9 requests -c conda-forge -y
 conda activate interproscan
 ```
 
-### 2. Install packages with pip:
+### Option 2: Pip + venv
 ```bash
+# Create virtual environment
+python -m venv interproscan_env
+
+# Activate environment (Linux/Mac)
+source interproscan_env/bin/activate
+
+# Activate environment (Windows)
+interproscan_env\Scripts\activate
+
+# Install requirements
 pip install requests
 ```
 
----
+## 📖 Usage
 
-## Complete Setup Instructions
+### 1. Prepare Input File
+Create a text file with UniProt IDs (one per line):
 
-### Prerequisites:
-- Conda or Miniconda installed
-- Internet connection for API calls
-- Valid email address (required by EMBL-EBI)
-
-### Step-by-step:
-1. **Clone/download** the `interproscan_pipeline.py` script
-2. **Create environment**: `conda create -n interproscan python=3.9 requests -c conda-forge -y`
-3. **Activate environment**: `conda activate interproscan`
-4. **Prepare input file**: Create a text file with UniProt IDs (one per line)
-5. **Run pipeline**: `python interproscan_pipeline.py input_file.txt output_folder/ email@example.com`
-
-### Example input file (uniprot_ids.txt):
 ```
 P12345
 Q9Y6K5
@@ -56,44 +61,66 @@ P53_HUMAN
 BRCA1_HUMAN
 ```
 
-### What you'll get:
-- **Protein sequences** in FASTA format
-- **Complete InterProScan results** in JSON format
-- **Domain annotations** from all databases (Pfam, SMART, CDD, etc.)
-- **GO terms** and **pathway information**
-- **Progress tracking** and **error reporting**
-
----
-
-## Troubleshooting
-
-### If you get import errors:
+### 2. Run Pipeline
 ```bash
-conda activate interproscan
-conda install requests -c conda-forge
+python interproscan_pipeline.py input_file.txt output_folder/ email@example.com
 ```
 
-### If you need to deactivate:
-```bash
-conda deactivate
+### 3. Output Structure
+```
+output_folder/
+├── sequences/
+│   ├── P12345.fasta
+│   ├── Q9Y6K5.fasta
+│   └── ...
+└── interproscan_results/
+    ├── P12345.json
+    ├── Q9Y6K5.json
+    └── ...
 ```
 
-### If you want to remove the environment later:
-```bash
-conda env remove -n interproscan
-```
+## 📊 What You Get
 
----
+- ✅ **Protein sequences** in FASTA format
+- ✅ **Complete InterProScan results** in JSON format
+- ✅ **Domain annotations** from all databases (Pfam, SMART, CDD, etc.)
+- ✅ **GO terms** and **pathway information**
+- ✅ **Progress tracking** and **error reporting**
 
-## Performance Notes
+## ⚡ Performance
+
 - **Processing time**: 5-30 minutes per protein (depends on sequence length)
 - **Concurrent jobs**: Max 5 simultaneous (respects API limits)
 - **Recommended**: Start with small batches (5-10 proteins) to test
 - **Large datasets**: Consider running overnight for 50+ proteins
 
-## Support
-For issues with the pipeline, check the error logs in the terminal output. Common issues:
+## 🐛 Troubleshooting
+
+### Import Errors
+```bash
+conda activate interproscan
+conda install requests -c conda-forge
+```
+
+### Common Issues
 - Invalid email format
 - Network connectivity problems  
 - UniProt ID not found
 - InterProScan server overload (retry later)
+
+### Environment Management
+```bash
+# Deactivate environment
+conda deactivate
+
+# Remove environment
+conda env remove -n interproscan
+```
+
+## 🤝 Contributing
+
+Feel free to open issues or submit pull requests to improve the pipeline.
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
